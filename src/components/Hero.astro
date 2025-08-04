@@ -1,0 +1,37 @@
+---
+const { nombre, profesion } = Astro.props;
+import { Image } from "astro:assets";
+import FotoPerfil from "../assets/mi_foto.jpg";
+---
+
+<section
+  class="text-center py-12 grid grid-cols-1 gap-6 place-items-center md:grid-cols-2"
+>
+  <div>
+    <Image
+      src={FotoPerfil}
+      loading="eager"
+      class="rounded-full w-96 h-96 object-cover"
+      alt="Foto"
+    />
+  </div>
+  <div>
+    <h1 class="text-4xl font-bold">{nombre}</h1>
+    <p class="text-xl mt-2 text-orange-600">{profesion}</p>
+    <p class="mt-4 text-gray-700 dark:text-gray-300 text-lg">
+      Soy un apasionado desarrollador web especializado en la creación de
+      experiencias digitales funcionales y atractivas. Mi stack principal
+      incluye tecnologías como HTML , CSS , JavaScript, Python, PHP y MySQL.
+    </p>
+    <div>
+      <a
+        href="/assets/cv.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block border-2 box-border border-orange-600 text-white px-6 py-3 bg-orange-600 rounded-lg hover:bg-white hover:text-orange-600 transition duration-75 ease-in-out mt-6 font-medium "
+      >
+        Ver CV
+      </a>
+    </div>
+  </div>
+</section>

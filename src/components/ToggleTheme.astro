@@ -1,0 +1,23 @@
+---
+// src/components/ToggleTheme.astro
+---
+
+<button 
+  onclick="toggleTheme()" 
+  class="px-3 py-2 rounded text-gray-800 bg-gray-100 dark:bg-gray-600 dark:text-white text-sm cursor-pointer"
+>
+  🌓 Tema
+</button>
+
+<script is:inline>
+  const toggleTheme = () => {
+    const html = document.documentElement;
+    const isDark = html.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  };
+
+  // Persistencia
+  if (localStorage.getItem('theme') === 'dark') {
+    document.documentElement.classList.add('dark');
+  }
+</script>

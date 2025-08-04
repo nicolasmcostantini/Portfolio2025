@@ -1,0 +1,35 @@
+---
+const { titulo, descripcion, imagen, url, tecnologias = []} = Astro.props;
+
+import { Image } from 'astro:assets';
+---
+
+<article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out dark:bg-gray-800">
+  <Image 
+    src={imagen} 
+    alt={`Imagen de ${titulo}`} 
+    loading={"lazy"}
+    class="w-full h-48 object-cover"
+  />
+  <div class="p-4">
+    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">{titulo}</h3>
+    <p class="text-gray-600 mt-2 text-sm dark:text-gray-300">{descripcion}</p>
+    <h3 class="text-md font-semibold text-gray-800 my-4">Tecnologías</h3>
+    <ul class="list-disc list-insidemt-2 flex items-center gap-4 justify-start flex-wrap">
+      {tecnologias.map((tecnologia: string) => (
+        <img src={`../assets/icons/${tecnologia}.svg`} alt={tecnologia} class="w-8 h-8" title={tecnologia} loading="lazy" />
+      ))}
+    </ul>
+    
+    {url && (
+      <a 
+        href={url} 
+        class="inline-block mt-4 text-blue-600 hover:underline text-sm font-medium "
+        target="_blank" 
+        rel="noopener noreferrer"
+      >
+        Ver proyecto →
+      </a>
+    )}
+  </div>
+</article>
