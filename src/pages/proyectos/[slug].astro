@@ -1,13 +1,8 @@
 ---
-// src/pages/proyectos/[slug].astro
 import type { GetStaticPaths } from "astro";
 import { getCollection } from 'astro:content';
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-import { slide } from 'astro:transitions';
-
-
-// Obtiene el slug desde la URL
 const { slug } = Astro.params;
 
 // Obtiene todos los proyectos
@@ -23,7 +18,6 @@ if (!proyecto) {
 // Define las rutas dinámicas que se generan en build
 export const getStaticPaths: GetStaticPaths = async () => {
   const proyectos = await getCollection('proyectos');
-
   return proyectos.map((proyecto) => ({
     params: { slug: proyecto.slug,
      },
@@ -32,8 +26,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 ---
 
 <BaseLayout title={proyecto.data.titulo}>
-
-  <main class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-4" transition:name=`titulo-${slug}`>{proyecto.data.titulo}</h1>
     <p class="mb-6" transition:name=`des-${slug}`>{proyecto.data.descripcion}</p>
 
@@ -45,5 +37,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
         </li>
       ))}
     </ul>
-  </main>
 </BaseLayout>

@@ -1,5 +1,6 @@
 ---
 import ToggleTheme from "./ToggleTheme.astro";
+
 let open = false;
 ---
 
@@ -12,8 +13,20 @@ let open = false;
       class="hidden md:flex space-x-4 text-2xl font-normal text-white font-mono"
     >
       <li><a href="/" class="hover:underline">Home</a></li>
-      <li><a href="#projects" class="hover:underline">Projects</a></li>
-      <li><a href="#contact" class="hover:underline">Contact</a></li>
+      <li>
+        <a
+          href="/"
+          onclick="return setScroll('projects')"
+          class="hover:underline">Projects</a
+        >
+      </li>
+      <li>
+        <a
+          href="/"
+          onclick="return setScroll('contact')"
+          class="hover:underline">Contact</a
+        >
+      </li>
       <li><ToggleTheme /></li>
     </ul>
 
@@ -28,45 +41,65 @@ let open = false;
   </nav>
 
   <!-- Menú móvil oculto por defecto -->
+
   <ul
     id="mobile-menu"
     class="absolute left-0 top-16 hidden flex-col gap-4 p-3 space-y-5 w-full bg-orange-600 dark:bg-gray-800 text-2xl font-normal text-white font-mono md:hidden z-30
-         transition-transform duration-300 ease-in-out -translate-y-full opacity-0 "
-    >
+         transition-all duration-200 ease-in-out -translate-y-full opacity-0"
+  >
     <li><a href="/" class="hover:underline">Home</a></li>
-    <li><a href="#projects" class="hover:underline">Projects</a></li>
-    <li><a href="#contact" class="hover:underline">Contact</a></li>
+    <li>
+      <a
+        href="/"
+        onclick="return setScroll('projects')"
+        class="hover:underline">Projects</a
+      >
+    </li>
+    <li>
+      <a
+        href="/"
+        onclick="return setScroll('contact')"
+        class="hover:underline">Contact</a
+      >
+    </li>
     <li><ToggleTheme /></li>
   </ul>
 
-<script is:inline>
-  const toggle = document.getElementById("menu-toggle");
-  const menu = document.getElementById("mobile-menu");
+  <script is:inline>
 
-  toggle.addEventListener("click", () => {
-    const isHidden = menu.classList.contains("hidden");
+    function InitMenuToggle() {
+      const toggle = document.getElementById("menu-toggle");
+      const menu = document.getElementById("mobile-menu");
 
-    if (isHidden) {
-      menu.classList.remove("hidden");
-      setTimeout(() => {
-        menu.classList.remove("-translate-y-full");
-        menu.classList.add("translate-y-0");
-        menu.classList.add("opacity-100");
-        menu.classList.remove("opacity-0");
-      }, 10);
-    } else {
-      menu.classList.remove("opacity-100");
-      menu.classList.add("opacity-0");
-      menu.classList.remove("translate-y-0");
-      menu.classList.add("-translate-y-full");
-      setTimeout(() => {
-        menu.classList.add("hidden");
-      }, 300);
+      toggle.addEventListener("click", () => {
+        const isHidden = menu.classList.contains("hidden");
+
+        if (isHidden) {
+          menu.classList.remove("hidden");
+          setTimeout(() => {
+            menu.classList.remove("-translate-y-full");
+            menu.classList.add("translate-y-0");
+            menu.classList.add("opacity-100");
+            menu.classList.remove("opacity-0");
+          }, 10);
+        } else {
+          menu.classList.remove("opacity-100");
+          menu.classList.add("opacity-0");
+          menu.classList.remove("translate-y-0");
+          menu.classList.add("-translate-y-full");
+          setTimeout(() => {
+            menu.classList.add("hidden");
+          }, 200);
+        }
+
+        toggle.textContent = isHidden ? "✖" : "☰";
+      });
     }
+    
+    document.addEventListener("astro:page-load", InitMenuToggle);
 
-    toggle.textContent = isHidden ? "✖" : "☰";
-  });
-</script>
-
-
+    function setScroll(target) {
+      localStorage.setItem("scrollTarget", target);
+    }
+  </script>
 </header>
