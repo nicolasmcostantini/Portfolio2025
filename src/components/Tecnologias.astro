@@ -1,27 +1,29 @@
 ---
-const { tecnologias } = Astro.props;
+const { tecnologias, slug, clasesImg, clasesTitulo} = Astro.props;
 
 //Funcion para obtener la ruta de los iconos
 const getIconPath = (name: string) => `/assets/icons/${name}.svg`;
 ---
-
-<h3 class="text-md font-semibold text-gray-800 my-4 dark:text-white">
-    Tecnologías
-</h3>
-<ul
-    class="list-disc list-insidemt-2 flex items-center gap-4 justify-start flex-wrap"
->
-    {
-        tecnologias.map((tecnologia: string) => (
-            <img
-                src={getIconPath(tecnologia)}
-                alt={tecnologia}
-                class="w-8 h-8"
-                title={tecnologia}
-                loading="lazy"
-                role="img"
-                aria-label={tecnologia}
-            />
-        ))
-    }
-</ul>
+<div>
+    <h3 class={clasesTitulo}>
+        Tecnologías
+    </h3>
+    <ul
+        class="list-disc list-insidemt-2 flex items-center gap-4 justify-start flex-wrap"
+    >
+        {
+            tecnologias.map((tecnologia: string) => (
+                <img
+                    src={getIconPath(tecnologia)}
+                    alt={tecnologia}
+                    class={clasesImg}
+                    title={tecnologia}
+                    loading="lazy"
+                    role="img"
+                    aria-label={tecnologia}
+                    transition:name={`icon-${tecnologia}-${slug}`}
+                />
+            ))
+        }
+    </ul>
+</div>

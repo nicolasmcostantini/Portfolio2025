@@ -1,13 +1,20 @@
 ---
 titulo: 'Landing'
 descripcion: 'Landing page de ropa'
-imagen: '../../assets/sistema.png'
+imagenes: 
+    - '../../assets/sistema.png'
+    - '../../assets/sistema.png'
+    - '../../assets/sistema.png'
+    - '../../assets/sistema.png'
+    - '../../assets/sistema.png'
 tecnologias:
     - html 
     - css
     - javascript
-    - php
-    - mysql
-    - jquery
+    - tailwind
 slug: 'landing'
 ---
+
+Soy el cuerpo del landing
+
+

@@ -4,10 +4,13 @@ import ImagenSistema from '../assets/sistema.png';
 import { getCollection } from 'astro:content';    
 
 const proyectos = await getCollection('proyectos');
-
 ---
 
-<h2 class="text-4xl font-bold mb-6 text-center">Proyectos</h2>
+<h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 text-center dark:text-white">
+   Mis <span class="text-orange-600">Proyectos</span>
+</h2>
+   <div class="w-24 h-1 bg-orange-600 mx-auto mt-6 rounded-full"></div>
+
 <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6" id="projects">
    {proyectos.map(proyecto => (
       <Card 
@@ -15,7 +18,6 @@ const proyectos = await getCollection('proyectos');
          descripcion={proyecto.data.descripcion} 
          imagen={ImagenSistema} 
          tecnologias={proyecto.data.tecnologias} 
-         slug={proyecto.slug}
-      />
+         slug={proyecto.slug}/>
   ))}
 </section>

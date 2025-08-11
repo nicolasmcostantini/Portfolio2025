@@ -1,0 +1,20 @@
+---
+import Tecnologias from '../Tecnologias.astro';
+
+interface Props {
+    titulo: string;
+    descripcion: string;
+    tecnologias: string[];
+    slug: string;
+}
+
+const { titulo, descripcion, tecnologias, slug } = Astro.props;
+---
+
+<h1 class="text-6xl font-bold m-4 text-center text-stone-700 dark:text-yellow-300" transition:name=`titulo-${slug}`>
+    {titulo}
+</h1>
+<div>
+    <p class="text-2xl font-sans mt-7" transition:name=`des-${slug}`>{descripcion}</p>
+    <Tecnologias tecnologias={tecnologias} slug={slug} clasesImg='w-23 h-23 ' clasesTitulo="font-bold text-5xl text-center text-stone-700 mt-9 my-6"/>
+</div>
