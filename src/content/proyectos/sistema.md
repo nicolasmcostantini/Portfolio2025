@@ -2,7 +2,7 @@
 titulo: 'Sistema De Gestion'
 descripcion: 'Sistema web desarrollado para la administración y seguimiento de inventario, cobranzas y clientes. Permite centralizar la información y mejorar la eficiencia operativa.'
 imagenes: 
-    - 'sistema.png'
+    - '../assets/sistema.png'
 tecnologias:
     - html 
     - css

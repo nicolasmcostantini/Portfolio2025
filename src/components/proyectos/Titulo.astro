@@ -1,20 +1,297 @@
 ---
-import Tecnologias from '../Tecnologias.astro';
+import Tecnologias from '../../components/Tecnologias.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Layout from '../../layouts/BaseLayout.astro';
 
 interface Props {
-    titulo: string;
-    descripcion: string;
-    tecnologias: string[];
-    slug: string;
+  titulo: string;
+  descripcion: string;
+  tecnologias: string[];
+  slug: string;
+  imagen?: string;
+  repositorio?: string;
+  demo?: string;
+  fecha?: string;
+  estado?: string;
+  caracteristicas?: string[];
+  desafios?: string[];
+  aprendizajes?: string[];
 }
 
-const { titulo, descripcion, tecnologias, slug } = Astro.props;
+const { 
+  titulo, 
+  descripcion, 
+  tecnologias, 
+  slug,
+  imagen = "../assets/sistema.png",
+  repositorio = 'www.github.com',
+  demo = 'www.demo.com',
+  fecha = "2024",
+  estado = "Completado",
+caracteristicas = [
+    'Interfaz de usuario moderna y responsiva.',
+    'Integración con APIs externas.',
+    'Soporte para modo oscuro y claro.',
+    'Optimización para SEO y rendimiento.',
+    'Despliegue automático con CI/CD.',
+],
+    desafios = ['Aprender a trabajar con nuevas tecnologías y frameworks.', 'Implementar un diseño responsivo y accesible.'],
+    aprendizajes = [
+        'Mejoré mis habilidades en integración de APIs externas.',
+        'Aprendí a optimizar el rendimiento y SEO en aplicaciones modernas.',
+        'Profundicé en el uso de Tailwind CSS y buenas prácticas de diseño responsivo.'
+    ]
+} = Astro.props;
 ---
 
-<h1 class="text-6xl font-bold m-4 text-center text-stone-700 dark:text-yellow-300" transition:name=`titulo-${slug}`>
-    {titulo}
-</h1>
-<div>
-    <p class="text-2xl font-sans mt-7" transition:name=`des-${slug}`>{descripcion}</p>
-    <Tecnologias tecnologias={tecnologias} slug={slug} clasesImg='w-23 h-23 ' clasesTitulo="font-bold text-5xl text-center text-stone-700 mt-9 my-6"/>
-</div>
+  <!-- Hero Section del Proyecto -->
+  <section class="relative min-h-screen flex items-center justify-center py-20 overflow-hidden">
+    <!-- Elementos decorativos de fondo -->
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-yellow-300 rounded-full mix-blend-multiply filter blur-3xl animate-pulse animation-delay-2000"></div>
+    </div>
+
+    <!-- Gradientes de difuminado en los bordes -->
+    <div class="absolute top-0 left-0 right-0 h-20  pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        
+        <!-- Columna de imagen -->
+        <div class="order-2 lg:order-1">
+          <div class="relative group">
+            <!-- Contenedor de imagen con efectos -->
+            <div class="relative">
+              <!-- Anillo decorativo -->
+              <div class="absolute -inset-4 bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-500 rounded-3xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+              
+              <!-- Imagen principal del proyecto -->
+              <div class="relative rounded-3xl overflow-hidden border-4 border-white dark:border-gray-800 shadow-2xl group-hover:shadow-3xl transition-all duration-500 group-hover:scale-105">
+                <img
+                  src={imagen || "/placeholder.svg"}
+                  alt={titulo}
+                  class="w-full h-80 lg:h-96 object-cover object-center"
+                  loading="eager"
+                />
+                
+                <!-- Overlay con botones de acción -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6"></div>
+              </div>
+              
+              <!-- Badge de estado -->
+              <div class="absolute -top-4 -right-4 px-3 py-1 bg-green-500 text-white text-sm font-semibold rounded-full shadow-lg">
+                {estado}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna de contenido -->
+        <div class="order-1 lg:order-2 space-y-8">
+          <!-- Breadcrumb -->
+          <nav class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+            <a href="/" class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">Inicio</a>
+            <span>/</span>
+            <a href="/#projects" class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors">Proyectos</a>
+            <span>/</span>
+            <span class="text-orange-600 dark:text-orange-400">{titulo}</span>
+          </nav>
+
+          <!-- Título principal -->
+          <h1 
+            class="text-4xl lg:text-6xl font-bold leading-tight bg-gradient-to-r from-gray-900 via-orange-600 to-gray-900 dark:from-white dark:via-orange-400 dark:to-white bg-clip-text text-transparent"
+            transition:name={`titulo-${slug}`}
+          >
+            {titulo}
+          </h1>
+
+          <!-- Metadatos del proyecto -->
+          <div class="flex flex-wrap gap-4 text-sm">
+            <div class="flex items-center space-x-2 px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full">
+              <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-6 0h6m-6 0V7a1 1 0 00-1 1v9a1 1 0 001 1h8a1 1 0 001-1V8a1 1 0 00-1-1h-2"></path>
+              </svg>
+              <span class="text-gray-700 dark:text-gray-300">{fecha}</span>
+            </div>
+            <div class="flex items-center space-x-2 px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full">
+              <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span class="text-gray-700 dark:text-gray-300">{estado}</span>
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <p 
+            class="text-lg lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed"
+            transition:name={`des-${slug}`}
+          >
+            {descripcion}
+          </p>
+
+          <!-- Botones de acción principales -->
+          <div class="flex flex-col sm:flex-row gap-4">
+            {demo && (
+              <a
+                href={demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                <svg class="w-5 h-5 mr-2 group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+                Ver Demo en Vivo
+              </a>
+            )}
+            
+            {repositorio && (
+              <a
+                href={repositorio}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-semibold rounded-2xl border-2 border-gray-200 dark:border-gray-700 hover:border-orange-500 dark:hover:border-orange-400 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                <svg class="w-5 h-5 mr-2 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                Ver Código Fuente
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Tecnologías -->
+  <section class="py-10 bg-white dark:bg-gray-900 relative">    
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-orange-600 to-gray-900 dark:from-white dark:via-orange-400 dark:to-white bg-clip-text text-transparent mb-4">
+          Tecnologías Utilizadas
+        </h2>
+        <div class="flex items-center justify-center space-x-4">
+          <div class="w-16 h-1 bg-gradient-to-r from-transparent to-orange-500 rounded-full"></div>
+          <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+            <div class="w-2 h-2 bg-white rounded-full"></div>
+          </div>
+          <div class="w-16 h-1 bg-gradient-to-l from-transparent to-orange-500 rounded-full"></div>
+        </div>
+      </div>
+
+      <div class="mb-12 flex items- justify-center gap-12 flex-wrap">
+        <Tecnologias
+          tecnologias={tecnologias} 
+          slug={slug} 
+          clasesImg='w-16 h-16 transition-transform duration-300 transform hover:scale-110 inline-block' 
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección de Detalles del Proyecto -->
+  {(caracteristicas.length > 0 || desafios.length > 0 || aprendizajes.length > 0) && (
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+          
+          <!-- Características -->
+          {caracteristicas.length > 0 && (
+            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/30 dark:border-gray-700/30 shadow-lg hover:shadow-2xl transition-all duration-300">
+              <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mr-4 flex-shrink-0">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Características</h3>
+              </div>
+              <ul class="space-y-3">
+                {caracteristicas.map((caracteristica) => (
+                  <li class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <span class="text-gray-600 dark:text-gray-300">{caracteristica}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <!-- Desafíos -->
+          {desafios.length > 0 && (
+            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/30 dark:border-gray-700/30 shadow-lg hover:shadow-2xl transition-all duration-300">
+              <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mr-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Desafíos</h3>
+              </div>
+              <ul class="space-y-3">
+                {desafios.map((desafio) => (
+                  <li class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <span class="text-gray-600 dark:text-gray-300">{desafio}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <!-- Aprendizajes -->
+          {aprendizajes.length > 0 && (
+            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/30 dark:border-gray-700/30 shadow-lg hover:shadow-2xl transition-all duration-300">
+              <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mr-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                  </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Aprendizajes</h3>
+              </div>
+              <ul class="space-y-3">
+                {aprendizajes.map((aprendizaje) => (
+                  <li class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <span class="text-gray-600 dark:text-gray-300">{aprendizaje}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Navegación a otros proyectos -->
+  <section class="py-20 bg-white dark:bg-gray-900">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          Otros Proyectos
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-300">
+          Explora más de mi trabajo
+        </p>
+      </div>
+      
+      <div class="flex justify-center">
+        <a
+          href="/#projects"
+          class="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-xl"
+        >
+          <svg class="w-5 h-5 mr-2 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0l-4-4m4 4l-4 4"></path>
+          </svg>
+          Ver Todos los Proyectos
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gradiente de difuminado inferior -->
+  <div class="h-20 bg-gradient-to-t from-gray-50 via-white/50 to-transparent dark:from-gray-800 dark:via-gray-900/50"></div>

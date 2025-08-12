@@ -52,12 +52,16 @@ import Tecnologias from "./Tecnologias.astro";
     </p>
     <div class="w-12 h-0.5 bg-gradient-to-r from-orange-500 to-orange-300 rounded-full"></div>
     <div class="pt-2">
-      <Tecnologias
-        tecnologias={tecnologias}
-        slug={slug}
-        clasesImg="w-8 h-8"
-        clasesTitulo="mt-3 text-lg font-semibold text-gray-700 dark:text-gray-300"
-      />
+      <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+        Tecnologías
+      </h4>
+      <div class="flex items-center gap-4 flex-wrap">
+        <Tecnologias
+          tecnologias={tecnologias}
+          slug={slug}
+          clasesImg="w-8 h-8"
+        />
+      </div>
     </div>
     {slug && (
       <div class="pt-4">
