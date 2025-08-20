@@ -1,9 +1,13 @@
 ---
 import Card from '../components/Card.astro';
 import ImagenSistema from '../assets/sistema.png';
-import { getCollection } from 'astro:content';    
+import { getCollection } from 'astro:content';
 
 const proyectos = await getCollection('proyectos');
+
+
+
+
 ---
 
 <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 text-center dark:text-white">
@@ -16,8 +20,11 @@ const proyectos = await getCollection('proyectos');
       <Card 
          titulo={proyecto.data.titulo} 
          descripcion={proyecto.data.descripcion} 
-         imagen={ImagenSistema} 
+         portada={proyecto.data.portada}
          tecnologias={proyecto.data.tecnologias} 
          slug={proyecto.slug}/>
   ))}
 </section>
+
+
+<script is:inline></script>

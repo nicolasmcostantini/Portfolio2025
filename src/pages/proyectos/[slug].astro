@@ -1,19 +1,23 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { getCollection, render} from 'astro:content';
-import { imagenesProyectos } from '../../utils/proyectosImagenes.js';
+import { getCollection, render } from "astro:content";
+
+import Imagenes from "../../components/proyectos/imagenes.astro";
+import GaleriaProyecto from "../../components/proyectos/GaleriaProyecto.astro";
+
+import Image from "astro/components/Image.astro";
 
 //Components
 import Titulo from "../../components/proyectos/Titulo.astro";
 
 //Layout
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroProyecto from "../../components/proyectos/HeroProyecto.astro";
 
 const { slug } = Astro.params;
 
 // Obtiene todos los proyectos
-const proyectos = await getCollection('proyectos');
-
+const proyectos = await getCollection("proyectos");
 
 // Busca el proyecto por slug
 const proyecto = proyectos.find((proj) => proj.slug === slug);
@@ -24,7 +28,7 @@ if (!proyecto) {
 
 // Define las rutas dinámicas que se generan en build
 export const getStaticPaths: GetStaticPaths = async () => {
-  const proyectos = await getCollection('proyectos');
+  const proyectos = await getCollection("proyectos");
   return proyectos.map((proyecto) => ({
     params: { slug: proyecto.slug },
     props: { proyecto },
@@ -32,10 +36,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const { Content } = await render(proyecto);
-const { titulo, descripcion, tecnologias, imagenes} = proyecto.data;
+const { titulo, descripcion, tecnologias, portada, imagenes} = proyecto.data;
+
+const listaImagenes = imagenes.map((src, idx) => ({
+  src,
+  alt: `Imagen ${idx + 1} del proyecto ${titulo}`,
+}));
+
 ---
 
 <BaseLayout title={proyecto.data.titulo}>
-  <Titulo titulo={proyecto.data.titulo} descripcion={proyecto.data.descripcion} tecnologias={proyecto.data.tecnologias} slug={proyecto.slug}/>
+  <HeroProyecto titulo={titulo} descripcion={descripcion} tecnologias={tecnologias} portada={portada} slug={proyecto.slug}/>
+  <GaleriaProyecto imagenes={listaImagenes} />
   <Content />
 </BaseLayout>

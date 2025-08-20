@@ -1,0 +1,15 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+const images = import.meta.glob<ImageMetadata>(
+  '/src/assets/*.{jpeg,jpg,png,tiff,webp,gif,svg,avif}', 
+  { eager: true, import: 'default' }
+);
+
+// Depuración
+---
+
+{Object.values(images).map((img) => (
+  <Image src={img} alt="Imagen del proyecto" />
+))}

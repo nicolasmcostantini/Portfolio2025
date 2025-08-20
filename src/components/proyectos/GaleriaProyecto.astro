@@ -1,0 +1,325 @@
+---
+interface Props {
+  imagenes: Array<{
+    src: string;
+    alt: string;
+    caption?: string;
+  }>;
+  columns?: number;
+  showCaptions?: boolean;
+  className?: string;
+}
+
+const { 
+  imagenes, 
+  columns = 3, 
+  showCaptions = true, 
+  className = "p-20" 
+} = Astro.props;
+
+// Generar clases de grid dinámicamente
+const gridCols = {
+  1: "grid-cols-1",
+  2: "grid-cols-1 md:grid-cols-2",
+  3: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+  4: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4",
+  5: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5",
+  6: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6"
+};
+
+const gridClass = gridCols[columns as keyof typeof gridCols] || gridCols[3];
+---
+
+<div class={`image-gallery ${className}`}>
+  <!-- Grid de imágenes -->
+  <div class={`grid ${gridClass} gap-4 md:gap-6`}>
+    {imagenes.map((image, index) => (
+      <div class="group relative overflow-hidden rounded-2xl bg-gray-100 dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+        <!-- Contenedor de imagen -->
+        <div class="relative aspect-square overflow-hidden cursor-pointer" 
+          data-gallery-item={index}
+          data-open-modal={index}
+>
+            
+          <img
+            src={image.src}
+            alt={image.alt}
+            class="w-full h-full object-cover"
+            loading="lazy"
+            onerror={`this.onerror=null; this.src='/assets/placeholder.svg'`}
+          />
+          
+          <!-- Overlay con efecto hover -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <!-- Botón de zoom -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <button 
+                class="w-12 h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform duration-300 shadow-lg"
+                data-open-modal={index}
+                aria-label={`Ver imagen: ${image.alt}`}
+              >
+                <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                </svg>
+              </button>
+            </div>
+            
+            <!-- Información de la imagen -->
+            {showCaptions && image.caption && (
+              <div class="absolute bottom-0 left-0 right-0 p-4">
+                <p class="text-white text-sm font-medium truncate">
+                  {image.caption}
+                </p>
+              </div>
+            )}
+          </div>
+          
+          <!-- Indicador de posición -->
+          <div class="absolute top-3 right-3 px-2 py-1 bg-black/50 text-white text-xs rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {index + 1} / {imagenes.length}
+          </div>
+        </div>
+        
+        <!-- Caption debajo de la imagen (opcional) -->
+        {showCaptions && image.caption && (
+          <div class="p-4">
+            <p class="text-sm text-gray-600 dark:text-gray-300 text-center">
+              {image.caption}
+            </p>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <!-- Modal de imagen completa -->
+  <div 
+    id="gallery-modal" 
+    class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm opacity-0 invisible transition-all duration-300 flex items-center justify-center p-4"
+  >
+    <!-- Contenedor del modal -->
+    <div class="relative max-w-7xl max-h-full w-full h-full flex items-center justify-center">
+      <!-- Botón cerrar -->
+      <button 
+        id="close-modal"
+        class="absolute top-4 right-4 z-10 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors duration-200"
+        aria-label="Cerrar galería"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <!-- Navegación anterior -->
+      <button 
+        id="prev-image"
+        class="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-orange-500/35 hover:bg-orange-500/70 rounded-full flex items-center justify-center text-white transition-colors duration-200"
+        aria-label="Imagen anterior"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+
+      <!-- Navegación siguiente -->
+      <button 
+        id="next-image"
+        class="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-orange-500/35 hover:bg-orange-500/70 rounded-full flex items-center justify-center text-white transition-colors duration-200"
+        aria-label="Imagen siguiente"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+
+      <!-- Imagen del modal -->
+      <div class="relative max-w-full max-h-full flex flex-col items-center justify-center">
+        <img 
+          id="modal-image"
+          alt=""
+          class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
+          onerror={`this.onerror=null; this.src='/assets/placeholder.svg'`}
+        />
+        
+        <!-- Caption del modal -->
+        <div id="modal-caption" class="mt-4 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white text-center max-w-2xl hidden">
+          <p class="text-sm font-medium"></p>
+        </div>
+        
+        <!-- Indicadores de navegación -->
+        <div class="mt-4 flex space-x-2">
+          {imagenes.map((_, index) => (
+            <button 
+              class="w-2 h-2 rounded-full bg-white/30 hover:bg-white/60 transition-colors duration-200 indicator-dot"
+              data-slide-to={index}
+              aria-label={`Ir a imagen ${index + 1}`}
+            ></button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  class ImageGallery {
+    private modal: HTMLElement;
+    private modalImage: HTMLImageElement;
+    private modalCaption: HTMLElement;
+    private currentIndex: number = 0;
+    private imagenes: Array<{src: string, alt: string, caption?: string}> = [];
+
+    constructor() {
+      this.modal = document.getElementById('gallery-modal')!;
+      this.modalImage = document.getElementById('modal-image') as HTMLImageElement;
+      this.modalCaption = document.getElementById('modal-caption')!;
+      
+      this.initializeimagenes();
+      this.bindEvents();
+    }
+
+    private initializeimagenes() {
+      // Extraer información de las imágenes del DOM
+      const galleryItems = document.querySelectorAll('[data-gallery-item]');
+      this.imagenes = Array.from(galleryItems).map((item) => {
+        const img = item.querySelector('img')!;
+        const captionElement = item.parentElement?.querySelector('p');
+        return {
+          src: img.src,
+          alt: img.alt,
+          caption: captionElement?.textContent || undefined
+        };
+      });
+    }
+
+    private bindEvents() {
+      // Abrir modal
+      document.querySelectorAll('[data-open-modal]').forEach((button) => {
+        button.addEventListener('click', (e) => {
+          const index = parseInt((e.target as HTMLElement).closest('[data-open-modal]')?.getAttribute('data-open-modal') || '0');
+          this.openModal(index);
+        });
+      });
+
+      // Cerrar modal
+      document.getElementById('close-modal')?.addEventListener('click', () => this.closeModal());
+      
+      // Navegación
+      document.getElementById('prev-image')?.addEventListener('click', () => this.prevImage());
+      document.getElementById('next-image')?.addEventListener('click', () => this.nextImage());
+
+      // Indicadores
+      document.querySelectorAll('.indicator-dot').forEach((dot, index) => {
+        dot.addEventListener('click', () => this.goToImage(index));
+      });
+
+      // Cerrar con ESC o click fuera
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') this.closeModal();
+        if (e.key === 'ArrowLeft') this.prevImage();
+        if (e.key === 'ArrowRight') this.nextImage();
+      });
+
+      this.modal.addEventListener('click', (e) => {
+        if (e.target === this.modal) this.closeModal();
+      });
+    }
+
+    private openModal(index: number) {
+      this.currentIndex = index;
+      this.updateModalContent();
+      this.modal.classList.remove('opacity-0', 'invisible');
+      document.body.style.overflow = 'hidden';
+    }
+
+    private closeModal() {
+      this.modal.classList.add('opacity-0', 'invisible');
+      document.body.style.overflow = '';
+    }
+
+    private prevImage() {
+      this.currentIndex = (this.currentIndex - 1 + this.imagenes.length) % this.imagenes.length;
+      this.updateModalContent();
+    }
+
+    private nextImage() {
+      this.currentIndex = (this.currentIndex + 1) % this.imagenes.length;
+      this.updateModalContent();
+    }
+
+    private goToImage(index: number) {
+      this.currentIndex = index;
+      this.updateModalContent();
+    }
+
+    private updateModalContent() {
+      const currentImage = this.imagenes[this.currentIndex];
+      
+      this.modalImage.src = currentImage.src;
+      this.modalImage.alt = currentImage.alt;
+      
+      if (currentImage.caption) {
+        this.modalCaption.querySelector('p')!.textContent = currentImage.caption;
+        this.modalCaption.classList.remove('hidden');
+      } else {
+        this.modalCaption.classList.add('hidden');
+      }
+
+      // Actualizar indicadores
+      document.querySelectorAll('.indicator-dot').forEach((dot, index) => {
+        if (index === this.currentIndex) {
+          dot.classList.remove('bg-white/30');
+          dot.classList.add('bg-white');
+        } else {
+          dot.classList.remove('bg-white');
+          dot.classList.add('bg-white/30');
+        }
+      });
+    }
+  }
+
+  // Inicializar cuando el DOM esté listo
+  document.addEventListener('astro:page-load', () => {
+    new ImageGallery();
+  });
+</script>
+
+<style>
+  .image-gallery {
+    @apply w-full;
+  }
+  
+  /* Animación suave para el modal */
+  #gallery-modal {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  /* Efecto de hover en las imágenes */
+  .image-gallery img {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  #gallery-modal .relative { position: relative; z-index: 0; }
+
+#gallery-modal img#modal-image {
+  position: relative;
+  z-index: 20;
+  transform: none;
+  pointer-events: auto; /* si no quieres deshabilitar clicks */
+  max-width: calc(100% - 6rem); /* deja espacio para botones */
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+/* Botones por encima */
+#prev-image,
+#next-image,
+#close-modal {
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+/* Empujar botones un poco hacia afuera para no ser tapados visualmente */
+#prev-image { left: 1.25rem; }
+#next-image { right: 1.25rem; }
+</style>

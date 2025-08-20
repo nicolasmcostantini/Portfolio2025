@@ -4,7 +4,6 @@ const { tecnologias, slug, clasesImg } = Astro.props;
 //Funcion para obtener la ruta de los iconos
 const getIconPath = (name: string) => `/assets/icons/${name}.svg`;
 ---
-
 {
     tecnologias.map((tecnologia: string) => (
         <img

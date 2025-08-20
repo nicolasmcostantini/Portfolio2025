@@ -1,8 +1,16 @@
 ---
 titulo: 'Sistema De Gestion'
 descripcion: 'Sistema web desarrollado para la administración y seguimiento de inventario, cobranzas y clientes. Permite centralizar la información y mejorar la eficiencia operativa.'
+portada: './vonzu_logo.jpg'
 imagenes: 
-    - '../assets/sistema.png'
+    - '/assets/sistema/inicio.png'
+    - '/assets/sistema/sistema.png'
+    - '/assets/sistema/clientes.png'
+    - '/assets/sistema/productos.png'
+    - '/assets/sistema/depositos.png'
+    - '/assets/sistema/ventas.png'
+    - '/assets/sistema/proveedores.png'
+
 tecnologias:
     - html 
     - css
