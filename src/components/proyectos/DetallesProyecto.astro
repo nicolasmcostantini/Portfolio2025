@@ -6,24 +6,14 @@ interface Props {
 }
 
 const { 
-  caracteristicas = [
-    'Interfaz de usuario moderna y responsiva.',
-    'Integración con APIs externas.',
-    'Soporte para modo oscuro y claro.',
-    'Optimización para SEO y rendimiento.',
-    'Despliegue automático con CI/CD.',
-  ],
-  desafios = ['Aprender a trabajar con nuevas tecnologías y frameworks.', 'Implementar un diseño responsivo y accesible.'],
-  aprendizajes = [
-    'Mejoré mis habilidades en integración de APIs externas.',
-    'Aprendí a optimizar el rendimiento y SEO en aplicaciones modernas.',
-    'Profundicé en el uso de Tailwind CSS y buenas prácticas de diseño responsivo.'
-  ]
+  caracteristicas = [],
+  desafios = [],
+  aprendizajes = []
 } = Astro.props;
 ---
 
 {(caracteristicas.length > 0 || desafios.length > 0 || aprendizajes.length > 0) && (
-  <section class="py-20 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+  <section class="py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
         

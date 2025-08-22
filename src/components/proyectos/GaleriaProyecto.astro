@@ -14,7 +14,7 @@ const {
   imagenes, 
   columns = 3, 
   showCaptions = true, 
-  className = "p-20" 
+  className = "p-10 bg-transparent" 
 } = Astro.props;
 
 // Generar clases de grid dinámicamente
@@ -34,7 +34,7 @@ const gridClass = gridCols[columns as keyof typeof gridCols] || gridCols[3];
   <!-- Grid de imágenes -->
   <div class={`grid ${gridClass} gap-4 md:gap-6`}>
     {imagenes.map((image, index) => (
-      <div class="group relative overflow-hidden rounded-2xl bg-gray-100 dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+      <div class="group relative overflow-hidden rounded-2xl  shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
         <!-- Contenedor de imagen -->
         <div class="relative aspect-square overflow-hidden cursor-pointer" 
           data-gallery-item={index}

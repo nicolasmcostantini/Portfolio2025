@@ -65,27 +65,28 @@ const listaImagenes = imagenes.map((src, idx) => ({
     tecnologias={tecnologias} 
     portada={portada} 
     slug={proyecto.slug}
-  />
-  
-  <!-- Metadatos del Proyecto -->
-  <MetadatosProyecto 
     fecha={fecha}
     estado={estado}
     repositorio={repositorio}
     demo={demo}
   />
   
-  <!-- Galería de Imágenes -->
-  <GaleriaProyecto imagenes={listaImagenes} />
-  
-  <!-- Contenido del Proyecto -->
-  <Content />
-  
-  <!-- Sección de Tecnologías -->
-  <TecnologiasSeccion 
+    <!-- Sección de Tecnologías -->
+    <TecnologiasSeccion 
     tecnologias={tecnologias} 
     slug={proyecto.slug}
   />
+  
+  <!-- Galería de Imágenes -->
+  <GaleriaProyecto imagenes={listaImagenes} />
+  
+  <section class="py-12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 markdown-card">
+      <article class="markdown-content">
+        <Content />
+      </article>
+    </div>
+  </section>
   
   <!-- Detalles del Proyecto -->
   <DetallesProyecto 
