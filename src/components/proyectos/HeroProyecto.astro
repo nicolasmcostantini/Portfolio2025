@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import vonzuLogo from "../../assets/vonzu_logo.jpg";
 
 interface Props {
   titulo: string;
@@ -23,6 +24,11 @@ const {
   fecha = "2025",
   estado = "Completado",
 } = Astro.props;
+
+// Mapeo de imágenes de portada
+const portadaImages: Record<string, typeof vonzuLogo> = {
+  'vonzu_logo.jpg': vonzuLogo,
+};
 ---
 
 <section
@@ -52,19 +58,18 @@ const {
             class="relative rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-3xl transition-all duration-500 group-hover:scale-105"
           >
             {
-              () => {
-                const img = import(
-                  /* @vite-ignore */ `../../assets/${portada}`
-                );
-                return (
-                  <Image
-                    src={img}
-                    alt={`Imagen del proyecto ${titulo}`}
-                    class="w-full h-80 lg:h-96 object-cover object-center"
-                    loading="eager"
-                  />
-                );
-              }
+              portadaImages[portada] ? (
+                <Image
+                  src={portadaImages[portada]}
+                  alt={`Imagen del proyecto ${titulo}`}
+                  class="w-full h-80 lg:h-96 object-cover object-center"
+                  loading="eager"
+                />
+              ) : (
+                <div class="w-full h-80 lg:h-96 bg-gray-200 dark:bg-gray-700 flex items-center justify-center rounded-2xl">
+                  <span class="text-gray-500 dark:text-gray-400">Imagen no disponible</span>
+                </div>
+              )
             }
             <!-- Overlay con botones de acción -->
             <div

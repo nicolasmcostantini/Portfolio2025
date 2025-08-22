@@ -1,4 +1,8 @@
 ---
+import { Image } from "astro:assets";
+import Tecnologias from "./Tecnologias.astro";
+import vonzuLogo from "../assets/vonzu_logo.jpg";
+
 interface Props {
   titulo: string;
   descripcion: string;
@@ -15,8 +19,10 @@ const {
   slug = "",
 }: Props = Astro.props;
 
-import { Image } from "astro:assets";
-import Tecnologias from "./Tecnologias.astro";
+// Mapeo de imágenes de portada
+const portadaImages: Record<string, typeof vonzuLogo> = {
+  'vonzu_logo.jpg': vonzuLogo,
+};
 ---
 
 <article
@@ -24,17 +30,18 @@ import Tecnologias from "./Tecnologias.astro";
 >
   <div class="relative overflow-hidden">
     {
-      () => {
-        const img = import(/* @vite-ignore */ `../assets/${portada}`);
-        return (
-          <Image
-            src={img}
-            alt={`Imagen del proyecto ${titulo}}`}
-            class="w-full h-80 lg:h-96 object-cover object-center"
-            loading="lazy"
-          />
-        );
-      }
+      portadaImages[portada] ? (
+        <Image
+          src={portadaImages[portada]}
+          alt={`Imagen del proyecto ${titulo}`}
+          class="w-full h-80 lg:h-96 object-cover object-center"
+          loading="lazy"
+        />
+      ) : (
+        <div class="w-full h-80 lg:h-96 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+          <span class="text-gray-500 dark:text-gray-400">Imagen no disponible</span>
+        </div>
+      )
     }
 
     <div
