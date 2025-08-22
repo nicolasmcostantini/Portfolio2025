@@ -2,17 +2,16 @@
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 
-import Imagenes from "../../components/proyectos/imagenes.astro";
+// Components
 import GaleriaProyecto from "../../components/proyectos/GaleriaProyecto.astro";
-
-import Image from "astro/components/Image.astro";
-
-//Components
-import Titulo from "../../components/proyectos/Titulo.astro";
-
-//Layout
-import BaseLayout from "../../layouts/BaseLayout.astro";
 import HeroProyecto from "../../components/proyectos/HeroProyecto.astro";
+import TecnologiasSeccion from "../../components/proyectos/TecnologiasSeccion.astro";
+import DetallesProyecto from "../../components/proyectos/DetallesProyecto.astro";
+import NavegacionProyectos from "../../components/proyectos/NavegacionProyectos.astro";
+import MetadatosProyecto from "../../components/proyectos/MetadatosProyecto.astro";
+
+// Layout
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const { slug } = Astro.params;
 
@@ -36,7 +35,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const { Content } = await render(proyecto);
-const { titulo, descripcion, tecnologias, portada, imagenes} = proyecto.data;
+const { 
+  titulo, 
+  descripcion, 
+  tecnologias, 
+  portada, 
+  imagenes,
+  caracteristicas,
+  desafios,
+  aprendizajes,
+  fecha,
+  estado,
+  repositorio,
+  demo
+} = proyecto.data;
 
 const listaImagenes = imagenes.map((src, idx) => ({
   src,
@@ -46,7 +58,42 @@ const listaImagenes = imagenes.map((src, idx) => ({
 ---
 
 <BaseLayout title={proyecto.data.titulo}>
-  <HeroProyecto titulo={titulo} descripcion={descripcion} tecnologias={tecnologias} portada={portada} slug={proyecto.slug}/>
+  <!-- Hero Section -->
+  <HeroProyecto 
+    titulo={titulo} 
+    descripcion={descripcion} 
+    tecnologias={tecnologias} 
+    portada={portada} 
+    slug={proyecto.slug}
+  />
+  
+  <!-- Metadatos del Proyecto -->
+  <MetadatosProyecto 
+    fecha={fecha}
+    estado={estado}
+    repositorio={repositorio}
+    demo={demo}
+  />
+  
+  <!-- Galería de Imágenes -->
   <GaleriaProyecto imagenes={listaImagenes} />
+  
+  <!-- Contenido del Proyecto -->
   <Content />
+  
+  <!-- Sección de Tecnologías -->
+  <TecnologiasSeccion 
+    tecnologias={tecnologias} 
+    slug={proyecto.slug}
+  />
+  
+  <!-- Detalles del Proyecto -->
+  <DetallesProyecto 
+    caracteristicas={caracteristicas}
+    desafios={desafios}
+    aprendizajes={aprendizajes}
+  />
+  
+  <!-- Navegación a Otros Proyectos -->
+  <NavegacionProyectos />
 </BaseLayout>

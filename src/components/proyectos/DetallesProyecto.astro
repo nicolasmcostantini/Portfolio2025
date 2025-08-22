@@ -1,0 +1,98 @@
+---
+interface Props {
+  caracteristicas?: string[];
+  desafios?: string[];
+  aprendizajes?: string[];
+}
+
+const { 
+  caracteristicas = [
+    'Interfaz de usuario moderna y responsiva.',
+    'Integración con APIs externas.',
+    'Soporte para modo oscuro y claro.',
+    'Optimización para SEO y rendimiento.',
+    'Despliegue automático con CI/CD.',
+  ],
+  desafios = ['Aprender a trabajar con nuevas tecnologías y frameworks.', 'Implementar un diseño responsivo y accesible.'],
+  aprendizajes = [
+    'Mejoré mis habilidades en integración de APIs externas.',
+    'Aprendí a optimizar el rendimiento y SEO en aplicaciones modernas.',
+    'Profundicé en el uso de Tailwind CSS y buenas prácticas de diseño responsivo.'
+  ]
+} = Astro.props;
+---
+
+{(caracteristicas.length > 0 || desafios.length > 0 || aprendizajes.length > 0) && (
+  <section class="py-20 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-8 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+        
+        <!-- Características -->
+        {caracteristicas.length > 0 && (
+          <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/30 dark:border-gray-700/30 shadow-lg hover:shadow-2xl transition-all duration-300">
+            <div class="flex items-center mb-6">
+              <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mr-4 flex-shrink-0">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Características</h3>
+            </div>
+            <ul class="space-y-3">
+              {caracteristicas.map((caracteristica) => (
+                <li class="flex items-start space-x-3">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span class="text-gray-600 dark:text-gray-300">{caracteristica}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <!-- Desafíos -->
+        {desafios.length > 0 && (
+          <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/30 dark:border-gray-700/30 shadow-lg hover:shadow-2xl transition-all duration-300">
+            <div class="flex items-center mb-6">
+              <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Desafíos</h3>
+            </div>
+            <ul class="space-y-3">
+              {desafios.map((desafio) => (
+                <li class="flex items-start space-x-3">
+                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span class="text-gray-600 dark:text-gray-300">{desafio}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <!-- Aprendizajes -->
+        {aprendizajes.length > 0 && (
+          <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-200/30 dark:border-gray-700/30 shadow-lg hover:shadow-2xl transition-all duration-300">
+            <div class="flex items-center mb-6">
+              <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mr-4">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Aprendizajes</h3>
+            </div>
+            <ul class="space-y-3">
+              {aprendizajes.map((aprendizaje) => (
+                <li class="flex items-start space-x-3">
+                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span class="text-gray-600 dark:text-gray-300">{aprendizaje}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+)}
