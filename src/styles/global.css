@@ -1,6 +1,17 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *)); 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Asegurar que el header se comporte correctamente en móviles */
+@layer base {
+  html {
+    overflow-x: hidden;
+  }
+  
+  body {
+    overflow-x: hidden;
+  }
+} 
 
 @layer utilities {
   .line-clamp-2 {
